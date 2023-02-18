@@ -1,0 +1,125 @@
+<div  id="app">
+  <div :class="basicStyle">
+    <h1>{{ message }}</h1>
+
+    <input v-model="textVal" type="text" id="textVal" placeholder="Please enter a todo...">
+  
+    <button :class="button" @click="addTodo">Add Todo</button>
+
+    <ul :class="todosStyling" v-for="todo in todos" :key="todo.id">
+      <li :class="[listType, todoNumber]" >{{todo.id}}</li><li :class="[listType, todoIndiv]" @dblclick="deleteTodo(todo)" contenteditable @click="checkStatus(e)">{{todo.text }}</li>
+    </ul>
+
+   
+
+    <p>Hint: Double click a todo to delete it</p>
+  </div>
+</div>
+
+<script type="module">
+     import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+     let id = 1;
+
+     createApp({
+    data() {
+      return {
+        message: 'Basic Todo App',
+        button:'button',
+        listType:'listItems',
+        todoIndiv: 'todoIndiv',
+        basicStyle: 'basicStyle',
+        textVal: '',
+        done: 'done',
+        todoNumber: 'todoNumber',
+        todosStyling: 'todosStyling',
+        todos: [
+          {id: id++, text: 'Do homework', complete: false},
+          {id: id++, text: 'Do project', complete: true},
+          {id: id++, text: 'Walk the dog', complete: false}
+        ]
+      }
+    },
+    methods: {
+      addTodo() {
+        let newTodo = this.textVal
+        this.todos.push({id: this.todos.length +1, text: newTodo, complete: false})
+      },
+      editTodo(e) {
+        this.content = e.target.innerHTML
+      },
+      deleteTodo(todo) {
+        let key = this.todos.indexOf(todo)
+        this.todos.splice(key, 1)
+      },
+      checkStatus(e) {
+        let todo = event.target
+    if (todo.classList.contains('done')) {
+       todo.classList.remove('done')
+    }
+    
+    else {
+        todo.classList.add('done')
+    }
+        console.log(todo)
+      }
+    }
+  }).mount('#app')
+</script>
+
+
+
+
+
+<style>
+    .button {
+      border-radius: 10px;
+      max-width: 150px;
+      color: white;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: rgb(147, 185, 228);
+      margin-bottom: 40px;
+    }
+    .button:hover {
+      cursor: pointer;
+    }
+
+    .listItems {
+      list-style-type: none;
+    }
+    .todoIndiv {
+      background-color: antiquewhite;
+      width: 20rem;
+      padding: 20px 30px 20px 5px;
+      border-radius: 10px;
+    }
+    .todoIndiv:hover {
+      background-color: rgb(197, 187, 175);
+      cursor: pointer;
+    }
+    .basicStyle {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .done {
+      background-color: rgb(151, 151, 151);
+      text-decoration: line-through;
+    }
+    .todosStyling {
+      display: flex;
+      align-items: center;
+    }
+    .todoNumber {
+      font-size: large;
+      padding-right: 3px;
+    }
+</style>
+
+
+
+<!-- <p>The Count is: {{ counter.count }}</p>
+    <button :class="button" @click="increment">Add One</button> -->
