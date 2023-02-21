@@ -12,6 +12,7 @@
 
    
 
+    <button :class="button" @click="clearCompleted">Clear Completed Todos</button>
     <p>Hint: Double click a todo to delete it</p>
   </div>
 </div>
@@ -62,6 +63,14 @@
         todo.classList.add('done')
     }
         console.log(todo)
+      },
+      clearCompleted() {
+        const todos = document.getElementsByClassName("done");
+    while(todos.length > 0){
+        todos[0].remove();
+    }
+
+    findtoDoLeft()
       }
     }
   }).mount('#app')
